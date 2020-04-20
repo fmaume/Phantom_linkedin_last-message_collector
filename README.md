@@ -1,1 +1,5 @@
-# Phantom_linkedin_last-message_collector
+# alpha version
+
+Phantombuster script to extract last linkedin messages with few valuable information.
+
+
