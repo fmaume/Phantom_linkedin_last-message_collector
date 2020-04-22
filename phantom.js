@@ -32,6 +32,27 @@ const MAX_PROFILES = 100
 
 // }
 
+//scroll down thread
+const scroll_thread = (arg, done) => {
+
+
+
+    try {
+
+        stemp = document.querySelectorAll('[data-control-name="view_message"]')
+        stemp = stemp[stemp.length - 1]
+        stemp.scrollIntoView({ block: "start", inline: "nearest" })
+
+
+    } catch (err) {
+        stemp = []
+    }
+    done(null, stemp)
+
+
+}
+
+
 //get list of message thread available
 const get_thread_list = (arg, done) => {
 
@@ -146,7 +167,7 @@ const get_counterparts = (arg, done) => {
 }
 
 //function to transform a list of array into a csv file
-const create_csv = (array_list, header) => {
+const create_csv = (array_list, header, n_line) => {
     //init csv
     csvContent = ""
 
@@ -159,6 +180,10 @@ const create_csv = (array_list, header) => {
 
     // get number of expected csv line
     array_lenght = array_list[0].length
+    // limit the number of line in the csv if more data than required
+    if (array_lenght > n_line) {
+        array_lenght = n_line
+    }
 
     var i;
     for (i = 0; i < array_lenght; i++) {
@@ -200,42 +225,46 @@ async function main(){
     console.log("redirected to messages")
 
     //swolly scroll to reaveal more threads
-    await tab.scrollToBottom()
+    stemp = await tab.evaluate(scroll_thread, arg)
     console.log("scrolled down")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.scrollToBottom()
+    await tab.wait(1000)
+    // 13 thread scrolled
+    stemp = await tab.evaluate(scroll_thread, arg)
     console.log("scrolled down")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
-    await tab.wait(10000)
-    console.log("waited")
+    await tab.wait(1000)
+    //19 threads scrolled
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+    stemp = await tab.evaluate(scroll_thread, arg)
+    console.log("scrolled down")
+    await tab.wait(1000)
+
+
     const thread_list = await tab.evaluate(get_thread_list, arg)
     console.log(thread_list)
 
@@ -314,12 +343,12 @@ async function main(){
     const jsonUrl = await buster.saveText(JSON.stringify(result_object), "result.json")
     console.log("json saved")
 
-    header = ["thread", "time_seprator_list", "conterpart_list", "message_count_list", "interlocutor"]
-    array_list = [thread_list, time_seprator_list, conterpart_list, message_count_list, interlocutor]
+    header = ["thread", "interlocutor", "time_seprator_list", "conterpart_list", "message_count_list"]
+    array_list = [thread_list, interlocutor, time_seprator_list, conterpart_list, message_count_list]
     //console.log(conterpart_list)
     //console.log("array_list")
     //console.log(array_list)
-    result_csv = await create_csv(array_list, header)
+    result_csv = await create_csv(array_list, header, arg.AccountNumber)
     console.log("csv generated")
     //console.log(result_csv)
     const csvUrl = await buster.saveText(result_csv, "result.csv")
