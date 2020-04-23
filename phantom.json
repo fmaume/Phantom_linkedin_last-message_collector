@@ -1,5 +1,5 @@
  
 {
 	"sessionCookie": "cookie parameter of the account the monitor",
-	"AccountNumber": "Number of message history to check for follow up",
+	"AccountNumber": "Number of message history to check for follow up (up to 79)",
 }
