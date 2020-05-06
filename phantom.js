@@ -335,6 +335,13 @@ async function main(){
         } catch (error) {
             console.log("There is an issue with this thread " + thread_list[i]);
             console.error(error);
+		// asigned "unknown" value if the thread dailed to load
+	    stemp = 'error with the thread'
+            message_count_list.push(stemp)
+            time_seprator_list.push(stemp)
+            conterpart_list.push(stemp)
+            interlocutor.push(stemp)	
+		
         }
     }
 
